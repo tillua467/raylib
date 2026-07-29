@@ -301,10 +301,6 @@ void ToggleBorderlessWindowed(void)
                 CORE.Window.position = CORE.Window.previousPosition;
                 CORE.Window.screen = CORE.Window.previousScreen;
 
-                // Remove undecorated flag
-                glfwSetWindowAttrib(platform.handle, GLFW_DECORATED, GLFW_TRUE);
-                FLAG_CLEAR(CORE.Window.flags, FLAG_WINDOW_UNDECORATED);
-
             #if !defined(__APPLE__) && !defined(_GLFW_WAYLAND)
                 // Make sure to restore size considering HighDPI scaling
                 // NOTE: On Wayland, GLFW_SCALE_FRAMEBUFFER handles scaling, skip manual resize
@@ -319,6 +315,10 @@ void ToggleBorderlessWindowed(void)
                 // Return to previous screen size and position
                 glfwSetWindowMonitor(platform.handle, NULL, CORE.Window.position.x, CORE.Window.position.y,
                     CORE.Window.screen.width, CORE.Window.screen.height, GLFW_DONT_CARE);
+
+		// Remove undecorated flag
+                glfwSetWindowAttrib(platform.handle, GLFW_DECORATED, GLFW_TRUE);
+                FLAG_CLEAR(CORE.Window.flags, FLAG_WINDOW_UNDECORATED);
 
                 // Refocus window
                 glfwFocusWindow(platform.handle);
